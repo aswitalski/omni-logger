@@ -1,0 +1,26 @@
+{
+  "name": "omni-logger",
+  "version": "0.0.1",
+  "description": "The Ultimate Isomorphic JavaScript Logger",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aswitalski/omni-logger.git"
+  },
+  "keywords": [
+    "node",
+    "browser",
+    "isomorphic",
+    "logger",
+    "log"
+  ],
+  "author": "Aleksander Świtalski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aswitalski/omni-logger/issues"
+  },
+  "homepage": "https://github.com/aswitalski/omni-logger#readme"
+}
