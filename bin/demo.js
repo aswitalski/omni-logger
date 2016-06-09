@@ -25,7 +25,7 @@ logger.plugIn(adorn);
 
 log.adorn('Some just to adorn logs', 40);
 
-log.log('Some to show useful information, like module names:\n');
+log.log('Some to show extra information, like module:\n');
 
 logger.plugIn(prefix, '[ $module ]');
 
@@ -34,3 +34,21 @@ logger.get('other').warn('Other module');
 logger.get('another').error('Yet another module');
 
 log.info();
+
+//logger.plugIn(prefix, '');
+
+//log.log('Or timestamp\n');
+
+logger.plugIn(prefix, '[ $timestamp ]');
+
+log.info('Or timestamp\n');
+
+logger.plugIn(prefix, '[ $timestamp | $module ]');
+
+log.warn('Or both\n');
+
+logger.plugIn(prefix, '$path |');
+log.info('Also the REAL line number of the log request\n');
+
+logger.plugIn(prefix, '>> OR ANY |');
+log.log('other pattern that you need\n');

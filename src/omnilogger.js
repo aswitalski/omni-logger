@@ -4,9 +4,12 @@ const logger = require('./logger');
 const settings = require('./settings');
 
 module.exports = {
+
     get: (module) => logger.create(module),
-    plugIn: (plugin) => {
+
+    plugIn: (plugin, config) => {
         if (typeof plugin.transform === 'function') {
+            plugin.transform.key = plugin.name;
             settings.addInterceptor(plugin.transform);
         }
         if (plugin.extensions)  {
@@ -17,6 +20,10 @@ module.exports = {
                    plugin.extensions[key](this, params);
                }
             });
+        }
+        //console.log('Config:', config);
+        if (config !== undefined) {
+            settings.addConfig(plugin.name, config);
         }
     }
 };
