@@ -4,7 +4,8 @@
   "description": "The Ultimate Isomorphic JavaScript Logger",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha",
+    "start": "node ./bin/demo.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,11 @@
   "bugs": {
     "url": "https://github.com/aswitalski/omni-logger/issues"
   },
-  "homepage": "https://github.com/aswitalski/omni-logger#readme"
+  "homepage": "https://github.com/aswitalski/omni-logger#readme",
+  "devDependencies": {
+    "assert": "^1.4.1"
+  },
+  "dependencies": {
+    "colors": "^1.1.2"
+  }
 }
