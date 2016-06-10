@@ -1,6 +1,5 @@
 'use strict';
 
-const colors = require('colors/safe');
 const settings = require('../settings');
 
 const getTimestamp = () => {
