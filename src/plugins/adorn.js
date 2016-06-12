@@ -11,7 +11,7 @@ const transform = (msg, length, symbol = '-') => {
         const spaceCount = parseInt((length - msg.length) / 2);
         prefix = new Array(spaceCount + 1).join(' ');
     }
-    return [ `${separator}`, `\n${prefix}${msg}`, `\n${separator}\n`];
+    return [ `\n${separator}\n${prefix}${msg}\n${separator}\n`];
 };
 
 module.exports = {

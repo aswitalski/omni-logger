@@ -33,11 +33,11 @@ module.exports = {
         }
         if (plugin.extensions) {
             Object.keys(plugin.extensions).map(key => {
-                settings.prototype[key] = function (...params) {
+                settings.addToPrototype(key, function (...params) {
                     //console.log('Extension method');
                     //console.log(this);
                     plugin.extensions[key](this, params);
-                }
+                });
             });
         }
         //console.log('Config:', config);

@@ -18,14 +18,14 @@ const log = (params, level, method, module, instance) => {
     //console.log('Interceptors:', interceptors.length);
 
     if (interceptors.length === 0) {
-        console[method].apply(this, params);
+        console[method](...params);
     } else {
         let transformedParams = params;
         interceptors.map(interceptor => {
             transformedParams = interceptor.transform(transformedParams, instance, level, method);
         });
         //console.log(transformedParams);
-        console[method].apply(this, transformedParams);
+        console[method](...transformedParams);
     }
 };
 

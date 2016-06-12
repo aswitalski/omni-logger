@@ -27,8 +27,8 @@ log.warn('   ... making it easy to spot a warning ...');
 log.error('           ... or AN ERROR ...');
 
 log.info('');
+
 log.log('    ... if it allows to use plugins ...');
-log.info('');
 
 logger.plugIn(adorn);
 
