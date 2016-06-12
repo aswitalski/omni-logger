@@ -14,19 +14,7 @@ const remove = (interceptor) => {
     });
 };
 
-const createInterceptor = (plugin, config = {}) => {
-    //console.log('Plugin:', plugin);
-    //console.log('Config:', config);
-    return ({
-        name: plugin.name,
-        transform: plugin.transform,
-        priority: config.priority || plugin.priority || 5,
-        config: Object.assign({}, plugin.config, config)
-    });
-};
-
-const addInterceptor = (plugin, config) => {
-    const interceptor = createInterceptor(plugin, config);
+const addInterceptor = (interceptor) => {
     //interceptors = interceptors.filter(i => i.name !== interceptor.name);
     remove(interceptor);
 
@@ -37,7 +25,8 @@ const addInterceptor = (plugin, config) => {
 
     interceptors.sort((a, b) =>
         a.priority === b.priority ? 0 :
-            a.priority < b.priority ? -1 : 1);
+            a.priority < b.priority ? -1 : 1
+    );
 };
 
 const addToPrototype = (key, value) => {
