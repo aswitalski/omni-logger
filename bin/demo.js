@@ -8,28 +8,31 @@ const log = logger.get('demo');
 const coloring = require('../src/plugins/coloring');
 const adorn = require('../src/plugins/adorn');
 const prefix = require('../src/plugins/prefix');
+const postfix = require('../src/plugins/postfix');
 
 // enabling logger and setting level to debug
 logger.enable(level.debug);
 
-log.info('The Ultimate Isomorphic JavaScript Logger');
-log.info();
-log.info('        ... it only is to be ...');
+logger.plugIn(adorn);
+log.adorn('The Ultimate Isomorphic JavaScript Logger', 48, '-');
+logger.uninstall(adorn);
+
+log.info('          ... it only is to be ...');
 log.info();
 
 logger.plugIn(coloring);
 
-log.info('       ... if it has coloring ...');
-log.warn('... making it easy to spot a warning ...');
-log.error('         ... or AN ERROR ...');
+log.info('         ... if it has coloring ...');
+log.warn('   ... making it easy to spot a warning ...');
+log.error('           ... or AN ERROR ...');
 
 log.info('');
-log.log('  ... if it allows to use plugins ...');
+log.log('    ... if it allows to use plugins ...');
 log.info('');
 
 logger.plugIn(adorn);
 
-log.adorn('Some just to adorn logs', 44);
+log.adorn('Some just to adorn logs', 48, '=');
 
 log.log('Some to show extra information, like module:\n');
 
@@ -53,13 +56,29 @@ logger.plugIn(prefix, '[ $timestamp | $module ]');
 
 log.warn('Or both\n');
 
-logger.plugIn(prefix, '$path |');
-log.info('Also the REAL line number of the log request\n');
+logger.plugIn(coloring, {
+    priority: 1
+});
+logger.plugIn(prefix, '[ $module ]');
+
+logger.get('also with').info('Main module');
+logger.get('no prefix').warn('Other module');
+logger.get('coloring').error('Yet another module');
+
+log.log();
+
+logger.uninstall(prefix);
+logger.plugIn(postfix, '( $path )');
+log.info('It is able to show the REAL line number of the log statement');
+
+logger.uninstall(postfix);
+
+log.log();
 
 logger.plugIn(prefix, '>>> OR ANY <<<');
 log.log('other pattern that you need');
 
-logger.plugIn(prefix, '>');
+logger.uninstall(prefix);
 
 log.info();
 log.info('Logging can be disabled and enabled at any time!');
@@ -71,5 +90,5 @@ log.info('This is not logged!');
 logger.enable();
 
 log.info();
-log.log('Logging is back on and this is logged');
+log.log('>> Logging is back on and this is logged');
 log.info();

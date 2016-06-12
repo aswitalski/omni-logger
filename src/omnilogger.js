@@ -28,6 +28,7 @@ module.exports = {
     plugIn: (plugin, config) => {
         if (typeof plugin.transform === 'function') {
             //plugin.transform.key = plugin.name;
+            //console.log('--> adding interceptor')
             settings.addInterceptor(createInterceptor(plugin, config));
         }
         if (plugin.extensions) {
@@ -43,6 +44,11 @@ module.exports = {
         if (config !== undefined) {
             settings.addConfig(plugin.name, config);
         }
+    },
+
+    uninstall: (plugin) => {
+        settings.removeInterceptor(createInterceptor(plugin));
+        settings.removeConfig(plugin.name);
     },
 
     disable: () => {

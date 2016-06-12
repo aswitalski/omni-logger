@@ -21,5 +21,7 @@ module.exports = {
         });
     },
 
-    extensions: {}
+    extensions: {},
+
+    priority: 10
 };

@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO: a terrible copy-n-paste - AMEND !!!
+
 const settings = require('../settings');
 
 const getTimestamp = () => {
@@ -22,19 +24,19 @@ const getPath = () => {
 const transform = (params, loggerInstance) => {
     //console.log(instance);
 
-    const config = settings.getConfig('Prefix');
-    let prefix = config || '[ $module ]';
+    const config = settings.getConfig('Postfix');
+    let postfix = config || '[ $module ]';
 
-    prefix = prefix.replace(/\$module/g, loggerInstance.module);
-    prefix = prefix.replace(/\$timestamp/g, getTimestamp());
+    postfix = postfix.replace(/\$module/g, loggerInstance.module);
+    postfix = postfix.replace(/\$timestamp/g, getTimestamp());
 
-    if (prefix.indexOf('$path') >= 0) {
-        prefix = prefix.replace(/\$path/g, getPath());
+    if (postfix.indexOf('$path') >= 0) {
+        postfix = postfix.replace(/\$path/g, getPath());
     }
 
     return params.map((param, index) => {
-        if (index === 0) {
-            return prefix + ' ' + param;
+        if (index === params.length - 1) {
+            return  param + ' ' + postfix;
         } else {
             return param;
         }
@@ -42,7 +44,7 @@ const transform = (params, loggerInstance) => {
 };
 
 module.exports = {
-    name: 'Prefix',
+    name: 'Postfix',
     transform,
     extensions: {},
     priority: 2

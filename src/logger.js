@@ -13,7 +13,10 @@ const log = (params, level, method, module, instance) => {
     if (!settings.enabled) {
         return;
     }
+
     const interceptors = settings.interceptors;
+    //console.log('Interceptors:', interceptors.length);
+
     if (interceptors.length === 0) {
         console[method].apply(this, params);
     } else {
