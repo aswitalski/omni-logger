@@ -1,9 +1,3 @@
-//const LOG = Logger.get('components');
-//
-//LOG.info();
-//
-//LOG.instrument(ReactComponent, Logger.reactInstrumentation);
-
 'use strict';
 
 const settings = require('./settings');

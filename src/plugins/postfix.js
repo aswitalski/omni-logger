@@ -16,9 +16,15 @@ const getPath = () => {
 
     if (lastLoggerIndex >= 0) {
         //console.log('Last logger index', lines.length - lastLoggerIndex);
-        return lines[lines.length - lastLoggerIndex].match(/\((.+)\)/)[1];
-    }
-    return '(unknown path)';
+        const nodePattern = /\((.+)\)/;
+        const browserPattern = /file\:\/\/(.+)/;
+        const line = lines[lines.length - lastLoggerIndex];
+        if (line.match(nodePattern)) {
+            return line.match(nodePattern)[1];
+        } else if (line.match(browserPattern)) {
+            return line.match(browserPattern)[1];
+        }
+    }    return '(unknown path)';
 };
 
 const transform = (params, loggerInstance) => {
