@@ -1,6 +1,7 @@
 'use strict';
 
 const pluginName = 'Postfix';
+const defaultPattern = '( $path )';
 
 const settings = require('../core/settings');
 const postprocessor = require('../core/postprocessor');
@@ -11,7 +12,7 @@ const transform = (params, loggerInstance) => {
 
     let transformedParams = Array.from(params);
     if (transformedParams.length > 0) {
-        transformedParams.push(config || '$path');
+        transformedParams.push(config || defaultPattern);
     }
 
     return postprocessor(loggerInstance, transformedParams);
@@ -20,6 +21,7 @@ const transform = (params, loggerInstance) => {
 module.exports = {
     name: pluginName,
     transform,
+    defaultPattern,
     extensions: {},
     priority: 2
 };
