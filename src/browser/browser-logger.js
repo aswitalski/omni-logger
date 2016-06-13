@@ -1,20 +1,14 @@
 'use strict';
 
-const logger = require('../omnilogger')
-
-// plugins
-const coloring = require('../plugins/coloring');
-const adorn = require('../plugins/adorn');
-const prefix = require('../plugins/prefix');
-const postfix = require('../plugins/postfix');
-
-logger.enable();
+const logger = require('../omnilogger');
 
 logger.plugins = {
-    coloring,
-    adorn,
-    prefix,
-    postfix
+    coloring: require('../plugins/coloring'),
+    adorn: require('../plugins/adorn'),
+    prefix: require('../plugins/prefix'),
+    postfix: require('../plugins/postfix')
 };
+
+logger.enable();
 
 window.logger = logger;

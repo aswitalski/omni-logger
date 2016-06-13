@@ -17,7 +17,7 @@ const getPath = () => {
     if (lastLoggerIndex >= 0) {
         //console.log('Last logger index', lines.length - lastLoggerIndex);
         const nodePattern = /\((.+)\)/;
-        const browserPattern = /file\:\/\/(.+)/;
+        const browserPattern = /.+((file|http)\:\/\/.+)/;
         const line = lines[lines.length - lastLoggerIndex];
         if (line.match(nodePattern)) {
             return line.match(nodePattern)[1];
