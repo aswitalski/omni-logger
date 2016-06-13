@@ -1,7 +1,7 @@
 'use strict';
 
-const logger = require('./logger');
-const settings = require('./settings');
+const logger = require('./core/logger');
+const settings = require('./core/settings');
 
 const levels = {
     debug: 'debug',

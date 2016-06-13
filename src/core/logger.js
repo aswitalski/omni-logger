@@ -16,10 +16,11 @@ const log = (params, level, method, module, instance) => {
     } else {
         let transformedParams = params;
         interceptors.map(interceptor => {
+            //console.log('Transformed params:', transformedParams);
             transformedParams = interceptor.transform(transformedParams, instance, level, method);
         });
         //console.log(transformedParams);
-        console[method](...transformedParams);
+        console[method].apply(console, transformedParams);
     }
 };
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('assert');
-const settings = require('../src/settings');
+const settings = require('../src/core/settings');
 
 describe('Settings', () => {
 

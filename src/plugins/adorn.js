@@ -1,9 +1,6 @@
 'use strict';
 
 const transform = (msg, length, symbol = '-') => {
-
-    //console.log('Transform params:', msg);
-
     length = (length === undefined ? msg.length : length || 32);
     const separator = new Array(length + 1).join(symbol);
     let prefix = '';
@@ -17,9 +14,9 @@ const transform = (msg, length, symbol = '-') => {
 module.exports = {
     name: 'Coloring',
     extensions: {
-        adorn: (logger, params) => {
+        adorn: (loggerInstance, params) => {
             //console.log(logger);
-            logger.log.apply(this, transform(...params));
+            loggerInstance.log.apply(this, transform(...params));
         }
     },
     priority: 3
