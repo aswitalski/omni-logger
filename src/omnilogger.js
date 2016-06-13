@@ -11,8 +11,6 @@ const levels = {
 };
 
 const createInterceptor = (plugin, config = {}) => {
-    //console.log('Plugin:', plugin);
-    //console.log('Config:', config);
     return ({
         name: plugin.name,
         transform: plugin.transform,
@@ -21,34 +19,45 @@ const createInterceptor = (plugin, config = {}) => {
     });
 };
 
+const setLevel = (level = levels.info) => {
+    settings.level = level
+};
+
+const setSelectiveLevel = (...levels) => {
+    // TODO: implement me;
+};
+
 module.exports = {
 
     get: (module) => logger.create(module),
 
-    plugIn: (plugin, config) => {
-        if (typeof plugin.transform === 'function') {
-            //plugin.transform.key = plugin.name;
-            //console.log('--> adding interceptor')
-            settings.addInterceptor(createInterceptor(plugin, config));
+    plugIn: (plugin, userConfig) => {
+
+        // TODO: store original plugin object
+
+        if (userConfig !== undefined) {
+            settings.addConfig(plugin.name, userConfig);
         }
+
+        if (typeof plugin.transform === 'function') {
+            settings.addInterceptor(createInterceptor(plugin, userConfig));
+        }
+
         if (plugin.extensions) {
             Object.keys(plugin.extensions).map(key => {
                 settings.addToPrototype(key, function (...params) {
-                    //console.log('Extension method');
-                    //console.log(this);
                     plugin.extensions[key](this, params);
                 });
             });
         }
-        //console.log('Config:', config);
-        if (config !== undefined) {
-            settings.addConfig(plugin.name, config);
-        }
+
     },
 
     uninstall: (plugin) => {
         settings.removeInterceptor(createInterceptor(plugin));
         settings.removeConfig(plugin.name);
+
+        // TODO: remove methods from prototype
     },
 
     disable: () => {
@@ -58,10 +67,12 @@ module.exports = {
     enable: (level) => {
         settings.enabled = true;
         if (level) {
-            settings.level = level;
+            setLevel(level);
         }
     },
 
+    setLevel,
+    setSelectiveLevel,
     level: levels,
     createInterceptor
 };

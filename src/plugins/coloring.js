@@ -2,10 +2,10 @@
 
 const colors = require('colors/safe');
 
+const pluginName = 'Coloring';
+
 module.exports = {
-
-    name: 'Coloring',
-
+    name: pluginName,
     transform: (params, loggerInstance, level, method) => {
         return params.map(param => {
             switch (method) {
@@ -20,8 +20,5 @@ module.exports = {
             }
         });
     },
-
-    extensions: {},
-
     priority: 10
 };

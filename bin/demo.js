@@ -85,7 +85,7 @@ log.info('Logging can be disabled and enabled at any time!');
 
 logger.disable();
 
-log.info('This is not logged!');
+log.info('This is NOT logged!');
 
 logger.enable();
 
