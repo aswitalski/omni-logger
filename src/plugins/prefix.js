@@ -4,7 +4,7 @@ const pluginName = 'Prefix';
 const defaultPattern = '[ $module ]';
 
 const settings = require('../core/settings');
-const postprocessor = require('../core/postprocessor');
+const postProcess = require('../core/postprocessor');
 
 const transform = (params, loggerInstance) => {
 
@@ -14,7 +14,7 @@ const transform = (params, loggerInstance) => {
         transformedParams.unshift(config || defaultPattern);
     }
 
-    return postprocessor(loggerInstance, transformedParams);
+    return postProcess(loggerInstance, transformedParams);
 };
 
 module.exports = {

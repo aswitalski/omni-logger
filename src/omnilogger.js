@@ -2,6 +2,7 @@
 
 const logger = require('./core/logger');
 const settings = require('./core/settings');
+const supportsColor = require('supports-color');
 
 const levels = {
     debug: 'debug',
@@ -24,7 +25,7 @@ const setLevel = (level = levels.info) => {
 };
 
 const setSelectiveLevel = (...levels) => {
-    // TODO: implement me;
+    // TODO: implement me
 };
 
 module.exports = {
@@ -74,5 +75,6 @@ module.exports = {
     setLevel,
     setSelectiveLevel,
     level: levels,
-    createInterceptor
+    createInterceptor,
+    supportsColor
 };

@@ -17,6 +17,10 @@ logger.plugIn(adorn);
 log.adorn('The Ultimate Isomorphic JavaScript Logger', 48, '-');
 logger.uninstall(adorn);
 
+if (!logger.supportsColor) {
+    logger.warn('   ( Your terminal does not support colors! )')
+}
+
 log.info('          ... it only is to be ...');
 log.info();
 
