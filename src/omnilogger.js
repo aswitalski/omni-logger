@@ -11,6 +11,43 @@ const levels = {
     error: 'error'
 };
 
+const install = (plugin, userConfig) => {
+
+    settings.plugins[plugin.name] = plugin;
+
+    if (userConfig !== undefined) {
+        settings.addConfig(plugin.name, userConfig);
+    }
+
+    if (typeof plugin.transform === 'function') {
+        settings.addInterceptor(createInterceptor(plugin, userConfig));
+    }
+
+    if (plugin.extensions) {
+        Object.keys(plugin.extensions).map(key => {
+            settings.addToPrototype(key, function (...params) {
+                plugin.extensions[key](this, params);
+            });
+        });
+    }
+};
+
+const uninstall = (plugin) => {
+
+    const registeredPlugin = settings.plugins[plugin.name];
+
+    settings.removeInterceptor(createInterceptor(registeredPlugin));
+    settings.removeConfig(plugin.name);
+
+    if (registeredPlugin.extensions) {
+        Object.keys(registeredPlugin.extensions).map(key => {
+            delete settings.prototype[key];
+        });
+    }
+
+    // TODO: remove methods from prototype
+};
+
 const createInterceptor = (plugin, config = {}) => {
     return ({
         name: plugin.name,
@@ -32,34 +69,10 @@ module.exports = {
 
     get: (module) => logger.create(module),
 
-    plugIn: (plugin, userConfig) => {
+    install,
+    plugIn: install, // alias
 
-        // TODO: store original plugin object
-
-        if (userConfig !== undefined) {
-            settings.addConfig(plugin.name, userConfig);
-        }
-
-        if (typeof plugin.transform === 'function') {
-            settings.addInterceptor(createInterceptor(plugin, userConfig));
-        }
-
-        if (plugin.extensions) {
-            Object.keys(plugin.extensions).map(key => {
-                settings.addToPrototype(key, function (...params) {
-                    plugin.extensions[key](this, params);
-                });
-            });
-        }
-
-    },
-
-    uninstall: (plugin) => {
-        settings.removeInterceptor(createInterceptor(plugin));
-        settings.removeConfig(plugin.name);
-
-        // TODO: remove methods from prototype
-    },
+    uninstall,
 
     disable: () => {
         settings.enabled = false;

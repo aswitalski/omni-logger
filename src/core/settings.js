@@ -1,10 +1,11 @@
 'use strict';
 
+const plugins = {};
+const configs = {};
+
 const prototype = {};
 
-let interceptors = [];
-
-const configs = {};
+const interceptors = [];
 
 const removeInterceptor = (interceptor) => {
     const remaining = interceptors.filter(i => i.name !== interceptor.name);
@@ -24,17 +25,18 @@ const addInterceptor = (interceptor) => {
     //console.log('Interceptors:');
     //console.log(interceptors);
 
-    interceptors.sort((a, b) =>
-        a.priority === b.priority ? 0 :
-            a.priority < b.priority ? -1 : 1
-    );
+    interceptors.sort((a, b) => a.priority - b.priority);
 
     //console.log('Sorted:');
     //console.log(interceptors);
 };
 
 const addToPrototype = (key, value) => {
-    prototype[key] = value;
+    if (prototype[key]) {
+        throw new Error(`Logger is already extended with:  + '${key}'`);
+    } else {
+        prototype[key] = value;
+    }
 };
 
 const addConfig = (key, config) => {
@@ -42,21 +44,37 @@ const addConfig = (key, config) => {
     configs[key] = config;
 };
 
-const removeConfig = (key, config) => {
-    //console.log('Adding config:', key, config);
-    configs[key] = config;
+const removeConfig = (key) => {
+    delete configs[key];
 };
 
 const getConfig = (key) => configs[key] || {};
 
+const getPrototype = () => Object.assign({}, prototype);
+
+const reset = () => {
+    Object.keys(prototype).map(key => {
+        delete prototype[key];
+    });
+    while (interceptors.length) {
+        interceptors.shift();
+    }
+    Object.keys(configs).map(key => {
+        delete configs[key];
+    });
+};
+
 module.exports = {
     level: 'info',
-    removeInterceptor,
-    addInterceptor,
+    interceptors,
+    prototype,
+    plugins,
     addToPrototype,
+    addInterceptor,
+    removeInterceptor,
     addConfig,
     getConfig,
     removeConfig,
-    interceptors,
-    prototype
+    getPrototype,
+    reset
 };
