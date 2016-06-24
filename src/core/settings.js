@@ -7,56 +7,82 @@ const prototype = {};
 
 const interceptors = [];
 
-const removeInterceptor = (interceptor) => {
-    const remaining = interceptors.filter(i => i.name !== interceptor.name);
-    while (interceptors.length) interceptors.shift();
-    remaining.map(i => {
-        interceptors.push(i)
-    });
-};
-
-const addInterceptor = (interceptor) => {
-    //interceptors = interceptors.filter(i => i.name !== interceptor.name);
-    removeInterceptor(interceptor);
-
-    // TODO: add something a bit more sophisticated
-    interceptors.push(interceptor);
-
-    //console.log('Interceptors:');
-    //console.log(interceptors);
-
-    interceptors.sort((a, b) => a.priority - b.priority);
-
-    //console.log('Sorted:');
-    //console.log(interceptors);
-};
-
-const addToPrototype = (key, value) => {
-    if (prototype[key]) {
-        throw new Error(`Logger is already extended with:  + '${key}'`);
-    } else {
-        prototype[key] = value;
+/**
+ * Removes interceptor by name.
+ * @param name Name of the plugin
+ */
+const removeInterceptor = (/* String */ name) => {
+    const index = interceptors.findIndex(element => element.name === name);
+    if (index >= 0) {
+        interceptors.splice(index, 1);
     }
 };
 
-const addConfig = (key, config) => {
-    //console.log('Adding config:', key, config);
-    configs[key] = config;
+/**
+ * Adds the specified interceptor to the chain, removes the previous one
+ * with the same name if found and sorts all interceptors by priority.
+ *
+ * @param interceptor Interceptor
+ */
+const addInterceptor = (/* Object */ interceptor) => {
+    removeInterceptor(interceptor.name);
+    interceptors.push(interceptor);
+    interceptors.sort((a, b) => a.priority - b.priority);
 };
 
-const removeConfig = (key) => {
-    delete configs[key];
+/**
+ * Extends all loggers by adding a field to their prototype.
+ * @param name Name of the field
+ * @param value Extension
+ */
+const addToPrototype = (/* String */ name, /* Object */ value) => {
+    if (prototype[name]) {
+        throw new Error(`Logger is already extended with:  + '${name}'`);
+    } else {
+        prototype[name] = value;
+    }
 };
 
-const getConfig = (key) => configs[key] || {};
+/**
+ * Adds new config.
+ *
+ * @param name Name of the plugin
+ * @param config Configuration object
+ */
+const addConfig = (/* String */ name, /* Object */ config) => {
+    configs[name] = config;
+};
 
+/**
+ * Deletes config by name.
+ *
+ * @param name Name of the plugin
+ */
+const removeConfig = (/* String */ name) => {
+    delete configs[name];
+};
+
+/**
+ * Returns user plugin config by name.
+ *
+ * @param name Name of the plugin
+ */
+const getConfig = (/* String */ name) => configs[name] || {};
+
+/**
+ * Returns a copy of the prototype object.
+ */
 const getPrototype = () => Object.assign({}, prototype);
 
+/**
+ * Resets settings by removing all the stored information -
+ * plugin definitions, interceptors and user plugin configs.
+ */
 const reset = () => {
     Object.keys(prototype).map(key => {
         delete prototype[key];
     });
-    while (interceptors.length) {
+    while (interceptors.length > 0) {
         interceptors.shift();
     }
     Object.keys(configs).map(key => {

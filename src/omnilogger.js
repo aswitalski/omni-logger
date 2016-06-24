@@ -4,6 +4,9 @@ const logger = require('./core/logger');
 const settings = require('./core/settings');
 const supportsColor = require('supports-color');
 
+/**
+ * Supported logging levels.
+ */
 const levels = {
     debug: 'debug',
     info: 'info',
@@ -11,6 +14,12 @@ const levels = {
     error: 'error'
 };
 
+/**
+ * Installs given plugin with custom user config.
+ *
+ * @param plugin Plugin definition
+ * @param userConfig User config
+ */
 const install = (plugin, userConfig) => {
 
     settings.plugins[plugin.name] = plugin;
@@ -32,22 +41,35 @@ const install = (plugin, userConfig) => {
     }
 };
 
+/**
+ * Removes specified plugin if already installed.
+ *
+ * @param plugin Plugin definition or name
+ */
 const uninstall = (plugin) => {
 
-    const registeredPlugin = settings.plugins[plugin.name];
+    const pluginName = typeof plugin === 'object' ? plugin.name : plugin;
+    const installedPlugin = settings.plugins[pluginName];
 
-    settings.removeInterceptor(createInterceptor(registeredPlugin));
-    settings.removeConfig(plugin.name);
+    if (installedPlugin) {
 
-    if (registeredPlugin.extensions) {
-        Object.keys(registeredPlugin.extensions).map(key => {
-            delete settings.prototype[key];
-        });
+        settings.removeInterceptor(pluginName);
+        settings.removeConfig(pluginName);
+
+        if (installedPlugin.extensions) {
+            Object.keys(installedPlugin.extensions).map(key => {
+                delete settings.prototype[key];
+            });
+        }
     }
-
-    // TODO: remove methods from prototype
 };
 
+/**
+ * Creates an interceptor object.
+ *
+ * @param plugin Plugin definition
+ * @param config Custom user config
+ */
 const createInterceptor = (plugin, config = {}) => {
     return ({
         name: plugin.name,
@@ -57,12 +79,22 @@ const createInterceptor = (plugin, config = {}) => {
     });
 };
 
+/**
+ * Sets specified level, defaults to INFO.
+ *
+ * @param level Logging level
+ */
 const setLevel = (level = levels.info) => {
     settings.level = level
 };
 
+/**
+ * Sets logging levels selectively.
+ *
+ * @param levels Logging levels to use
+ */
 const setSelectiveLevel = (...levels) => {
-    // TODO: implement me
+    // TODO: implement exclusionary level selection
 };
 
 module.exports = {
@@ -70,7 +102,7 @@ module.exports = {
     get: (module) => logger.create(module),
 
     install,
-    plugIn: install, // alias
+    plugIn: install,
 
     uninstall,
 

@@ -28,6 +28,7 @@
   "devDependencies": {
     "assert": "^1.4.1",
     "browserify": "^13.0.1",
+    "eslint": "^2.13.1",
     "proxyquire": "^1.7.9",
     "sinon": "^1.17.4"
   },

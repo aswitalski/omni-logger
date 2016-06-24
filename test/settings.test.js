@@ -9,7 +9,7 @@ describe('Settings', () => {
 
         beforeEach(() => settings.reset());
 
-        it('allows to add an extension', () => {
+        it('allows to add a new method', () => {
 
             assert.equal(settings.prototype.foo, undefined);
 
@@ -19,7 +19,7 @@ describe('Settings', () => {
             assert.equal(settings.prototype.foo, extension);
         });
 
-        it('disallows to add an extension more than once', () => {
+        it('disallows to override the method', () => {
 
             assert.equal(settings.prototype.foo, undefined);
 
