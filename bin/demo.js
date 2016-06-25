@@ -10,6 +10,15 @@ const adorn = require('../src/plugins/adorn');
 const prefix = require('../src/plugins/prefix');
 const postfix = require('../src/plugins/postfix');
 
+const center = (msg, length = 48) => {
+    const indent = Math.floor((length - msg.length) / 2);
+    if (indent > 0) {
+        return new Array(indent + 1).join(' ') + msg;
+    } else {
+        return msg;
+    }
+};
+
 // enabling logger and setting level to debug
 logger.enable(level.debug);
 
@@ -18,21 +27,21 @@ log.adorn('The Ultimate Isomorphic JavaScript Logger', 48, '-');
 logger.uninstall(adorn);
 
 if (!logger.supportsColor) {
-    logger.warn('   ( Your terminal does not support colors! )')
+    logger.warn(center('( Your terminal does not support colors! )'))
 }
 
-log.info('          ... it only is to be ...');
+log.info(center('... it only is to be ...'));
 log.info();
 
 logger.plugIn(coloring);
 
-log.info('         ... if it has coloring ...');
-log.warn('   ... making it easy to spot a warning ...');
-log.error('           ... or AN ERROR ...');
+log.info(center('... if it has coloring ...'));
+log.warn(center('... making it easy to spot a warning ...'));
+log.error(center('... or AN ERROR ...'));
 
 log.info('');
 
-log.log('    ... if it allows to use plugins ...');
+log.log(center('... if it allows to use plugins ...'));
 
 logger.plugIn(adorn);
 
