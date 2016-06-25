@@ -4,9 +4,15 @@ const pluginName = 'Postfix';
 const defaultPattern = '( $path )';
 
 const settings = require('../core/settings');
-const postProcess = require('../core/postprocessor');
+const postProcess = require('../core/post-processor');
 
-const transform = (params, loggerInstance) => {
+/**
+ * Adds a postfix at the end of the params array if it's not empty.
+ *
+ * @param params Params array
+ * @param loggerInstance Logger instance
+ */
+const transform = (/* Array */ params, /* Object */ loggerInstance) => {
 
     let transformedParams = Array.from(params);
     if (transformedParams.length > 0) {
@@ -21,6 +27,5 @@ module.exports = {
     name: pluginName,
     transform,
     defaultPattern,
-    extensions: {},
     priority: 2
 };

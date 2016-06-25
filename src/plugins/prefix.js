@@ -4,8 +4,14 @@ const pluginName = 'Prefix';
 const defaultPattern = '[ $module ]';
 
 const settings = require('../core/settings');
-const postProcess = require('../core/postprocessor');
+const postProcess = require('../core/post-processor');
 
+/*
+ * Adds a prefix at the beginning of the params array if it's not empty.
+ *
+ * @param params Params array
+ * @param loggerInstance Logger instance
+ */
 const transform = (params, loggerInstance) => {
 
     let transformedParams = Array.from(params);
@@ -21,6 +27,5 @@ module.exports = {
     name: pluginName,
     transform,
     defaultPattern,
-    extensions: {},
     priority: 2
 };

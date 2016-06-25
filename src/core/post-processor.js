@@ -24,10 +24,13 @@ const getPath = () => {
     return '(unknown path)';
 };
 
+/**
+ * Replaces placeholders in specified parameters of type String with values;
+ *
+ * @param loggerInstance Logger instance
+ * @param params Parameters to be amended
+ */
 const process = (loggerInstance, params) => {
-
-    //console.log('2 Params:', params);
-    //console.log('2 Logger instance:', loggerInstance);
 
     return params.map(param => {
         if (typeof param === 'string') {
@@ -47,8 +50,6 @@ const process = (loggerInstance, params) => {
             return param;
         }
     })
-
-
 };
 
 module.exports = process;

@@ -8,7 +8,7 @@ let pattern;
 let postprocessorMock = sinon.stub();
 
 const prefix = proxyquire('../src/plugins/prefix', {
-    '../core/postprocessor': (loggerInstance, params) => {
+    '../core/post-processor': (loggerInstance, params) => {
         postprocessorMock.reset();
         postprocessorMock.returns(params);
         return postprocessorMock();
