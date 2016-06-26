@@ -15,10 +15,14 @@ const getPath = () => {
         const nodePattern = /\((.+)\)/;
         const browserPattern = /.+((file|http):\/\/.+)/;
         const line = lines[lines.length - lastLoggerIndex];
-        if (line.match(nodePattern)) {
-            return line.match(nodePattern)[1];
-        } else if (line.match(browserPattern)) {
-            return line.match(browserPattern)[1];
+        if (line) {
+            if (line.match(nodePattern)) {
+                return line.match(nodePattern)[1];
+            } else if (line.match(browserPattern)) {
+                return line.match(browserPattern)[1];
+            }
+        } else {
+            // TODO: handle this case
         }
     }
     return '(unknown path)';
